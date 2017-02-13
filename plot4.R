@@ -1,13 +1,21 @@
+#Loads data
 householdPWR <- read.delim("../household_power_consumption.txt",sep = ";")
+
+#Reformats Data col into Data class
 householdPWR[,1] <- as.Date(householdPWR[,1], format = "%d/%m/%Y")
 
+
+#2x2 subplots, fill by row
 par(mfrow=c(2,2))
 
+#Start and end date
 startDate <- as.Date("2007/02/01")
 endDate <- as.Date("2007/02/02")
 
+#Takes subset with start and end date
 rangehouseholdPWR <- householdPWR[householdPWR[,1] == startDate | householdPWR[,1] == endDate,]
 
+#Prepares date and time for data points
 rangehouseholdPWR$dateTime <- paste(rangehouseholdPWR$Date, rangehouseholdPWR$Time)
 rangehouseholdPWR$dateTime <- as.POSIXct(rangehouseholdPWR$dateTime)
 
@@ -39,6 +47,7 @@ rangehouseholdPWR$Global_reactive_power <- as.numeric(as.character(rangehousehol
 
 plot(y = rangehouseholdPWR$Global_reactive_power, x = rangehouseholdPWR$dateTime ,ylab = "Global_reactive_power", xlab="datetime", type="o", pch = '.' )
 
+#saves and closes.
 dev.copy(png,"plot4.png", width = 480, height = 480)
 dev.off()
 
